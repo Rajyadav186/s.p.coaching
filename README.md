@@ -54,35 +54,3 @@ npm run dev        # → http://localhost:5173
 npm run build      # production build
 ```
 
----
-
-## Configure WhatsApp & Instagram
-
-Open `src/components/FloatingSocial.jsx` and update lines 7–9:
-
-```js
-const WHATSAPP_NUMBER  = '919824006191'        // your number with country code
-const WHATSAPP_MESSAGE = encodeURIComponent('Hello! I want to know more...')
-const INSTAGRAM_URL    = 'https://instagram.com/your_profile'
-```
-
----
-
-## Activate Contact Form (EmailJS – Free, 5 min)
-
-Open `src/components/Contact.jsx` and replace lines 14–16:
-
-```js
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID'
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY'
-```
-
-Setup: https://www.emailjs.com → Add Service → Create Template → Copy keys.
-
----
-
-## Replace Topper Photos
-
-Put individual student photos in `public/gallery/` and update the `img` paths in
-`src/components/Results.jsx` (the `TOPPERS` array).
