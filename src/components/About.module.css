@@ -1,0 +1,29 @@
+/* ── About.module.css ── */
+.section { background: #fff; position: relative; overflow: hidden; }
+.section::before {
+  content: ''; position: absolute; top: -200px; right: -200px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(245,237,224,.8), transparent 70%);
+  pointer-events: none;
+}
+.section h2 { font-size: clamp(2rem,4vw,2.8rem); margin-bottom: 16px; }
+
+.list { list-style: none; margin-bottom: 32px; }
+.list li { padding: 7px 0 7px 22px; position: relative; color: var(--text-mid); font-size: 15px; transition: all .2s; }
+.list li::before { content: '●'; position: absolute; left: 0; color: var(--brand); font-size: 8px; top: 12px; transition: transform .2s; }
+.list li:hover { color: var(--text-dark); transform: translateX(4px); }
+.list li:hover::before { transform: scale(1.5); }
+
+.mvGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.mvCard {
+  background: var(--cream-light); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+  transition: all .3s; position: relative; overflow: hidden;
+}
+.mvCard::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: var(--brand); transition: width .4s; }
+.mvCard:hover  { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(184,74,10,.12); }
+.mvCard:hover::after { width: 100%; }
+.mvCard h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.mvCard p  { font-size: 14px; color: var(--text-muted); }
+
+@media(max-width:600px) { .mvGrid { grid-template-columns: 1fr; } }

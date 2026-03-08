@@ -1,0 +1,88 @@
+/* ── Contact.module.css ── */
+.section  { position: relative; overflow: hidden; }
+.bg       { position: absolute; inset: 0; background: linear-gradient(135deg,#6b2504 0%,#9b3a08 35%,#b84a0a 60%,#7a2c05 100%); }
+.canvas   { position: absolute; inset: 0; pointer-events: none; width: 100%; height: 100%; }
+.section .container { position: relative; z-index: 2; }
+
+.heading  { font-size: clamp(2rem,4vw,2.8rem); color: #fff; margin-bottom: 8px; }
+.accent   { color: #f0a850; }
+.subtext  { color: rgba(255,255,255,.7); font-size: 15px; margin-bottom: 40px; }
+
+.inner { display: grid; grid-template-columns: 1fr 1.4fr; gap: 40px; align-items: start; }
+
+/* Info cards */
+.info   { display: flex; flex-direction: column; gap: 14px; }
+.ciCard {
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px; padding: 18px 20px;
+  display: flex; gap: 14px; align-items: flex-start;
+  transition: all .3s; backdrop-filter: blur(4px);
+}
+.ciCard:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.25); transform: translateX(6px); }
+.ciIcon { font-size: 20px; flex-shrink: 0; }
+.ciCard strong { font-size: 11px; letter-spacing: .1em; color: rgba(255,255,255,.5); display: block; margin-bottom: 4px; }
+.ciCard p      { font-size: 14px; color: rgba(255,255,255,.85); }
+.ganeshCard {
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px; padding: 20px; text-align: center;
+  color: rgba(255,255,255,.7); font-size: 15px; transition: all .3s;
+}
+.ganeshCard:hover { background: rgba(255,255,255,.14); }
+.ganeshCard p { font-size: 13px; margin-top: 8px; color: rgba(255,255,255,.55); }
+
+/* Form wrapper */
+.formWrap {
+  background: #fff; border-radius: 20px; padding: 36px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.2); transition: transform .3s;
+}
+.formWrap:hover { transform: translateY(-4px); }
+.formTitle { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--brand); margin-bottom: 6px; }
+.formNote  { color: #888; font-size: 14px; margin-bottom: 24px; }
+
+.row   { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.group label    { font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--text-muted); }
+.group input,
+.group select,
+.group textarea {
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 12px 14px; font-size: 14px; font-family: 'DM Sans', sans-serif;
+  color: var(--text-dark); background: var(--cream-light);
+  outline: none; transition: all .2s; width: 100%;
+}
+.group input:focus,
+.group select:focus,
+.group textarea:focus {
+  border-color: var(--brand); background: #fff;
+  box-shadow: 0 0 0 3px rgba(184,74,10,.1);
+}
+
+.btnSubmit {
+  width: 100%; background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: #fff; border: none; border-radius: 10px;
+  padding: 16px; font-size: 15px; font-weight: 700;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: all .3s;
+}
+.btnSubmit:hover    { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(184,74,10,.4); }
+.btnSubmit:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+
+.errorBox {
+  background: #fff0f0; border: 1px solid #ffcccc;
+  border-radius: 8px; padding: 12px 16px;
+  font-size: 13px; color: #c0392b; margin-bottom: 14px;
+}
+
+/* Success state */
+.success {
+  text-align: center; padding: 60px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.successIcon { font-size: 56px; }
+.success h3  { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--brand); }
+.success p   { color: var(--text-muted); margin-bottom: 8px; }
+
+@media(max-width:900px) {
+  .inner { grid-template-columns: 1fr; }
+  .row   { grid-template-columns: 1fr; }
+}

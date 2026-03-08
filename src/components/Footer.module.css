@@ -1,0 +1,35 @@
+/* ── Footer.module.css ── */
+.footer {
+  background: linear-gradient(to bottom, #1a0a02, #0d0502);
+  padding: 48px 24px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.footer::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184,74,10,.5), transparent);
+}
+.inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+
+.logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem; color: var(--brand);
+  margin-bottom: 8px; display: inline-block;
+  transition: all .3s; cursor: default;
+}
+.logo:hover { color: #f5a623; transform: scale(1.03); }
+
+.sub  { font-size: 13px; color: rgba(255,255,255,.4); margin-bottom: 28px; }
+
+.nav  { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; margin-bottom: 28px; }
+.nav a {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  color: rgba(255,255,255,.35); transition: all .2s; position: relative;
+}
+.nav a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 1px; background: var(--brand); transition: width .3s;
+}
+.nav a:hover           { color: var(--brand); }
+.nav a:hover::after    { width: 100%; }
+
+.copy { font-size: 13px; color: rgba(255,255,255,.2); }

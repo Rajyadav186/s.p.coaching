@@ -1,0 +1,30 @@
+/* ── WhyUs.module.css ── */
+.section  { position: relative; overflow: hidden; }
+.bg       { position: absolute; inset: 0; background: linear-gradient(135deg,#6b2504 0%,#9b3a08 35%,#b84a0a 60%,#8b3507 100%); }
+.canvas   { position: absolute; inset: 0; pointer-events: none; opacity: .5; width: 100%; height: 100%; }
+.section :global(.container) { position: relative; z-index: 2; }
+
+.heading  { font-size: clamp(2rem,4vw,2.8rem); color: #fff; margin-bottom: 8px; }
+.accent   { color: #f0a850; }
+.intro    { color: rgba(255,255,255,.75); font-size: 15px; margin-top: 8px; margin-bottom: 32px; max-width: 540px; }
+
+.grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 40px; }
+
+.card {
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px; padding: 28px 22px; text-align: center;
+  transition: all .4s; backdrop-filter: blur(4px);
+}
+.card:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.3); transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 50px rgba(0,0,0,.2); }
+.card:hover .icon { transform: scale(1.3) rotate(5deg); animation: none !important; }
+
+.icon  { font-size: 32px; margin-bottom: 14px; display: block; animation: float 4s ease-in-out infinite; }
+.card:nth-child(2) .icon{animation-delay:-.5s} .card:nth-child(3) .icon{animation-delay:-1s}
+.card:nth-child(4) .icon{animation-delay:-1.5s} .card:nth-child(5) .icon{animation-delay:-2s}
+.card:nth-child(6) .icon{animation-delay:-2.5s}
+
+.title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.desc  { font-size: 13.5px; color: rgba(255,255,255,.7); line-height: 1.6; }
+
+@media(max-width:900px) { .grid { grid-template-columns: repeat(2,1fr); } }
+@media(max-width:600px) { .grid { grid-template-columns: 1fr; } }

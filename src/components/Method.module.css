@@ -1,0 +1,32 @@
+/* ── Method.module.css ── */
+.section { background: var(--cream-light); position: relative; overflow: hidden; }
+.section h2 { font-size: clamp(2rem,4vw,2.8rem); margin-bottom: 8px; }
+
+.stepList { display: flex; flex-direction: column; gap: 12px; }
+.step {
+  display: flex; gap: 20px; align-items: flex-start;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 22px; transition: all .3s;
+}
+.step:hover { border-color: rgba(184,74,10,.3); box-shadow: 0 8px 25px rgba(184,74,10,.1); transform: translateX(6px); }
+.step:hover .stepNum { color: rgba(184,74,10,.3); }
+.stepNum  { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--border); line-height: 1; flex-shrink: 0; transition: color .3s; }
+.step strong { font-size: 15px; color: var(--text-dark); display: block; margin-bottom: 4px; }
+.step p      { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; }
+
+.toolsIntro { color: rgba(255,255,255,.65); font-size: 14px; margin-bottom: 18px; }
+.toolsGrid  { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.toolTag {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.8); font-size: 12px; border-radius: 6px; padding: 5px 11px;
+  transition: all .25s; cursor: default;
+}
+.toolTag:hover { background: rgba(255,255,255,.2); transform: translateY(-2px) scale(1.05); }
+
+.quote {
+  background: rgba(0,0,0,.15); border-left: 3px solid rgba(255,200,120,.4);
+  border-radius: 0 8px 8px 0; padding: 16px 18px; transition: all .3s;
+}
+.quote:hover { background: rgba(0,0,0,.25); border-left-color: rgba(255,200,120,.7); }
+.quote p      { font-style: italic; color: rgba(255,255,255,.8); font-size: 14px; line-height: 1.65; margin-bottom: 8px; }
+.quote footer { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.6); }

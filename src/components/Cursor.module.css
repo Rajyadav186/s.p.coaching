@@ -1,0 +1,28 @@
+/* ── Cursor.module.css ── */
+.cursor {
+  position: fixed; width: 12px; height: 12px;
+  background: var(--brand); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .2s, height .2s;
+  mix-blend-mode: multiply;
+}
+.cursor:global(.hover) { width: 6px; height: 6px; }
+
+.cursorRing {
+  position: fixed; width: 36px; height: 36px;
+  border: 2px solid var(--brand); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%); opacity: .5;
+  transition: width .2s, height .2s;
+}
+.cursorRing:global(.hover) { width: 56px; height: 56px; opacity: .3; }
+
+.rippleContainer { position: fixed; inset: 0; pointer-events: none; z-index: 9990; overflow: hidden; }
+.ripple {
+  position: absolute; border-radius: 50%;
+  background: rgba(184,74,10,.15);
+  transform: scale(0);
+  animation: rippleAnim .6s ease-out forwards;
+}
+@keyframes rippleAnim { to { transform: scale(2.5); opacity: 0; } }

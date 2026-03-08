@@ -1,0 +1,9 @@
+/* ── Topbar.module.css ── */
+.bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand), #f5a623);
+  z-index: 200;
+  transition: width .1s;
+}
