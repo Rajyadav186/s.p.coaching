@@ -2,6 +2,7 @@
 // Dynamic SEO Landing Page & Article View for S.P. Coaching Classes
 import { useState, useEffect, useMemo } from 'react'
 import { useParams, useLocation, Link } from 'react-router-dom'
+import DOMPurify from 'dompurify'
 import { getBlogBySlug, getAllBlogs } from '../services/blogService'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -70,7 +71,7 @@ export default function BlogPostPage() {
     return items
   }, [blog])
 
-  // Inject IDs into content headings dynamically for smooth scrolling
+  // Inject IDs into content headings dynamically for smooth scrolling & sanitize against XSS
   const formattedContent = useMemo(() => {
     if (!blog || !blog.content) return ''
     let html = blog.content
@@ -78,7 +79,10 @@ export default function BlogPostPage() {
       const targetTag = new RegExp(`(<h${item.level}[^>]*>)(${item.text})(</h${item.level}>)`, 'i')
       html = html.replace(targetTag, `<h${item.level} id="${item.id}">$2</h${item.level}>`)
     })
-    return html
+    return DOMPurify.sanitize(html, {
+      ADD_TAGS: ['iframe'],
+      ADD_ATTR: ['target', 'id', 'rel', 'allowfullscreen', 'frameborder']
+    })
   }, [blog, tableOfContents])
 
   // Related / Interlinking articles (exclude current)
