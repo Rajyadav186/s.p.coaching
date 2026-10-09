@@ -1,0 +1,14 @@
+── Timings.module.css ──
+.section { background: #fff; }
+.section h2 { font-size: clamp(2rem,4vw,2.8rem); margin-bottom: 8px; }
+
+.tableWrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,.05); }
+.table     { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table thead tr { background: linear-gradient(90deg, var(--brand-dark), var(--brand)); }
+.table th  { color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .1em; padding: 14px 16px; text-align: left; }
+.table td  { padding: 14px 16px; border-bottom: 1px solid var(--border); color: var(--text-mid); transition: all .2s; }
+.table tr:last-child td { border-bottom: none; }
+.table tbody tr:hover td { background: var(--cream-light); padding-left: 20px; }
+
+.badge { font-weight: 700; font-size: 13px; }
+.note  { margin-top: 12px; font-size: 13px; color: var(--text-muted); font-style: italic; }

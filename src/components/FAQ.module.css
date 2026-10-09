@@ -1,0 +1,124 @@
+/* ── FAQ.module.css ── */
+.section {
+  padding: 100px 0;
+  background: var(--cream);
+  position: relative;
+}
+
+.faqList {
+  max-width: 800px;
+  margin: 40px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.item {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.item:hover {
+  border-color: rgba(184, 74, 10, 0.3);
+  box-shadow: 0 4px 16px rgba(184, 74, 10, 0.08);
+}
+
+.itemOpen {
+  border-color: var(--brand);
+  box-shadow: 0 6px 20px rgba(184, 74, 10, 0.12);
+}
+
+.question {
+  width: 100%;
+  padding: 20px 24px;
+  background: none;
+  border: none;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  gap: 16px;
+}
+
+.qText {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.4;
+}
+
+.chevron {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--brand);
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(184, 74, 10, 0.08);
+  transition: all 0.2s ease;
+}
+
+.itemOpen .chevron {
+  background: var(--brand);
+  color: #fff;
+}
+
+.answer {
+  padding: 0 24px 20px;
+  color: var(--text-mid);
+  font-size: 15px;
+  line-height: 1.65;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ctaBox {
+  margin-top: 48px;
+  text-align: center;
+  padding: 28px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px dashed rgba(184, 74, 10, 0.4);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ctaBox p {
+  font-size: 15px;
+  color: var(--text-mid);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.ctaBtn {
+  display: inline-block;
+  background: var(--brand);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.ctaBtn:hover {
+  background: var(--brand-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(184, 74, 10, 0.3);
+}

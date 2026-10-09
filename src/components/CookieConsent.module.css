@@ -1,0 +1,123 @@
+/* ── CookieConsent.module.css ── */
+.banner {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+  z-index: 9999;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.text {
+  flex: 1;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.desc {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.desc a {
+  color: var(--brand);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.btnDecline {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-mid);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnDecline:hover {
+  background: #f5f5f5;
+  color: var(--text-dark);
+}
+
+.btnAccept {
+  background: var(--brand);
+  border: 1px solid var(--brand);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnAccept:hover {
+  background: var(--brand-dark);
+  border-color: var(--brand-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(184, 74, 10, 0.3);
+}
+
+@media (max-width: 640px) {
+  .banner {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+    gap: 16px;
+  }
+  .actions {
+    justify-content: flex-end;
+  }
+}

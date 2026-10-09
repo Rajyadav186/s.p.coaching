@@ -1,0 +1,97 @@
+/* ── Navbar.module.css ── */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  transition: all .3s;
+}
+.navbar.scrolled {
+  background: rgba(255,255,255,.98);
+  box-shadow: 0 4px 30px rgba(0,0,0,.08);
+}
+.inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 24px;
+}
+
+/* Logo */
+.logo       { display: flex; align-items: center; gap: 12px; transition: transform .3s; }
+.logo:hover { transform: scale(1.03); }
+.logoImg {
+  width: 42px; height: 42px; border-radius: 50%;
+  object-fit: cover;
+  transition: transform .3s;
+}
+.logoImg:hover { transform: rotate(10deg) scale(1.1); }
+.logoText  { display: flex; flex-direction: column; line-height: 1.2; }
+.logoName  { font-weight: 600; font-size: 15px; color: var(--text-dark); }
+.logoSub   { font-size: 10px; letter-spacing: .1em; color: var(--text-muted); }
+
+/* Nav links */
+.links { display: flex; align-items: center; gap: 26px; }
+.link  {
+  font-size: 14px; font-weight: 500; color: var(--text-mid);
+  position: relative; transition: color .2s;
+}
+.link::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 2px; background: var(--brand);
+  transition: width .3s; border-radius: 2px;
+}
+.link:hover           { color: var(--brand); }
+.link:hover::after    { width: 100%; }
+
+/* Enroll button */
+.btnEnroll {
+  background: var(--brand); color: #fff !important;
+  padding: 8px 20px; border-radius: 8px;
+  font-weight: 600; font-size: 14px;
+  transition: all .3s; position: relative; overflow: hidden;
+}
+.btnEnroll:hover {
+  background: var(--brand-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(184,74,10,.4);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 6px;
+}
+.hamburger span {
+  display: block; width: 24px; height: 2px;
+  background: var(--text-dark); border-radius: 2px;
+  transition: all .3s;
+}
+.hamburgerOpen span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburgerOpen span:nth-child(2) { opacity: 0; }
+.hamburgerOpen span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+@media(max-width:900px) {
+  .hamburger { display: flex; }
+  .links {
+    position: fixed; top: 62px; left: 0; right: 0;
+    flex-direction: column; gap: 0;
+    background: rgba(255,255,255,.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+    max-height: 0; overflow: hidden;
+    transition: max-height .3s ease, padding .3s ease;
+  }
+  .linksOpen {
+    max-height: 400px; padding: 16px 0;
+  }
+  .link {
+    display: block; padding: 12px 24px;
+    font-size: 15px; width: 100%;
+  }
+  .link::after { display: none; }
+  .btnEnroll {
+    margin: 8px 24px 4px; text-align: center;
+    display: block;
+  }
+}
