@@ -29,7 +29,7 @@ export default function Footer() {
       <div className={styles.inner}>
         <div className={styles.logoWrap}>
           <img
-            src="/gallery/website-logo.png"
+            src="/logo.png"
             alt="S.P. Coaching Classes logo"
             className={styles.logoImg}
             width={48}

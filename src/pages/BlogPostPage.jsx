@@ -127,7 +127,7 @@ export default function BlogPostPage() {
                 name: 'S.P. Coaching Classes Silvassa',
                 logo: {
                   '@type': 'ImageObject',
-                  url: 'https://spclasses.site/gallery/website-logo.png'
+                  url: 'https://spclasses.site/logo.png'
                 }
               },
               datePublished: blog.publishDate || '2026-10-01',

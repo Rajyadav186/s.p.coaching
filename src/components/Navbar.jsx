@@ -36,7 +36,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className={styles.logo} onClick={handleLinkClick}>
           <img
-            src="/gallery/website-logo.png"
+            src="/logo.png"
             alt="S.P. Coaching Classes logo"
             className={styles.logoImg}
             width={42}

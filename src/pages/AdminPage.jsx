@@ -442,7 +442,7 @@ export default function AdminPage() {
       <div className={styles.loginContainer}>
         <div className={styles.loginCard}>
           <img
-            src="/gallery/website-logo.png"
+            src="/logo.png"
             alt="S.P. Coaching Logo"
             className={styles.loginLogo}
             onError={(e) => { e.target.src = '/logo.png' }}
@@ -497,7 +497,7 @@ export default function AdminPage() {
       <header className={styles.topNav}>
         <div className={styles.navBrand}>
           <img
-            src="/gallery/website-logo.png"
+            src="/logo.png"
             alt="S.P. Coaching Logo"
             className={styles.navLogo}
             onError={(e) => { e.target.src = '/logo.png' }}

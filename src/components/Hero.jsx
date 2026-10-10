@@ -91,7 +91,7 @@ export default function Hero() {
         <div className={styles.right}>
           <div className={styles.highlightCard}>
             <img
-              src="/gallery/website-logo.png"
+              src="/logo.png"
               alt="S.P. Coaching Classes logo"
               className={styles.heroLogo}
               width={120}
