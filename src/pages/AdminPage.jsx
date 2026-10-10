@@ -458,7 +458,7 @@ export default function AdminPage() {
               <input
                 type="password"
                 className={styles.input}
-                placeholder="Enter password (default: spcoaching2026)"
+                placeholder="Enter password"
                 value={loginPass}
                 onChange={e => setLoginPass(e.target.value)}
                 autoFocus

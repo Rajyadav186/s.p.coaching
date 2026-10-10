@@ -20,7 +20,7 @@ sp-coaching-v2/
 │       └── teachersday2.jpg
 │
 └── src/
-    ├── App.jsx                     ← Root – imports all components
+├── App.jsx                     ← Root – imports all components
     ├── main.jsx                    ← React entry
     ├── index.css                   ← Global CSS variables, keyframes
     │
