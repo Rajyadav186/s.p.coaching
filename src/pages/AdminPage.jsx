@@ -1,6 +1,6 @@
 // ── AdminPage.jsx ──────────────────────────────────────────
 // Complete Admin Panel for S.P. Coaching Classes
-// Full control over Blogs, SEO Backlinks, Gallery Sections, Reviews, Announcements, & Supabase Storage
+// Full control over Blogs, SEO Backlinks, Gallery Sections, Reviews, and Announcements
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
@@ -27,16 +27,6 @@ import {
   getAllReviews,
   deleteReview
 } from '../services/siteService'
-import {
-  getSupabaseConfig,
-  saveSupabaseConfig,
-  testSupabaseConnection,
-  SUPABASE_SQL_SCHEMA,
-  isSupabaseConfigured
-} from '../services/supabase'
-import {
-  uploadMediaToSupabase
-} from '../services/storageService'
 import styles from './AdminPage.module.css'
 
 export default function AdminPage() {
@@ -63,23 +53,6 @@ export default function AdminPage() {
     email: '',
     location: ''
   })
-  const [loading, setLoading] = useState(true)
-
-  // Supabase & Storage states
-  const [supabaseConfig, setSupabaseConfig] = useState(getSupabaseConfig())
-  const [supabaseStatus, setSupabaseStatus] = useState({
-    testing: false,
-    tested: false,
-    success: false,
-    message: '',
-    tables: null
-  })
-  const [copiedSql, setCopiedSql] = useState(false)
-  const [quickUploadUrl, setQuickUploadUrl] = useState('')
-  const [quickUploading, setQuickUploading] = useState(false)
-  const [uploadingGalleryImg, setUploadingGalleryImg] = useState(false)
-  const [uploadingBlogImg, setUploadingBlogImg] = useState(false)
-
   // Modals state
   const [blogModalOpen, setBlogModalOpen] = useState(false)
   const [editingBlog, setEditingBlog] = useState(null)
@@ -101,13 +74,10 @@ export default function AdminPage() {
     setIsAuthenticated(authed)
     if (authed) {
       loadAllData()
-    } else {
-      setLoading(false)
     }
   }, [])
 
   async function loadAllData() {
-    setLoading(true)
     try {
       const [blogList, galleryList, reviewList, siteSet] = await Promise.all([
         getAllBlogs(),
@@ -308,113 +278,6 @@ export default function AdminPage() {
     showNotification('✅ Site settings & announcements updated live!')
   }
 
-  // ── Supabase & Storage Handlers ──
-  const handleSaveSupabaseConfig = (e) => {
-    e?.preventDefault()
-    saveSupabaseConfig(supabaseConfig)
-    showNotification('💾 Supabase credentials saved! Testing connection...')
-    handleTestSupabaseConnection()
-  }
-
-  const handleTestSupabaseConnection = async () => {
-    setSupabaseStatus({ testing: true, tested: false, success: false, message: 'Testing connection to Supabase...', tables: null })
-    try {
-      const result = await testSupabaseConnection()
-      setSupabaseStatus({
-        testing: false,
-        tested: true,
-        success: result.success,
-        message: result.message,
-        tables: result.tables || null
-      })
-      if (result.success) {
-        showNotification('⚡ Connected to Supabase successfully!')
-        loadAllData()
-      } else {
-        showNotification('⚠️ Supabase notice: ' + result.message)
-      }
-    } catch (err) {
-      setSupabaseStatus({
-        testing: false,
-        tested: true,
-        success: false,
-        message: err.message,
-        tables: null
-      })
-    }
-  }
-
-  const handleCopySql = () => {
-    try {
-      navigator.clipboard.writeText(SUPABASE_SQL_SCHEMA)
-      setCopiedSql(true)
-      showNotification('📋 Complete Supabase SQL setup script copied to clipboard!')
-      setTimeout(() => setCopiedSql(false), 3000)
-    } catch (e) {
-      alert('Please select and copy the SQL code from the schema box below.')
-    }
-  }
-
-  const handleGalleryFileUpload = async (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setUploadingGalleryImg(true)
-    try {
-      const res = await uploadMediaToSupabase(file, 'gallery')
-      if (res.success && res.url) {
-        setEditingGallery(prev => ({
-          ...prev,
-          src: res.url,
-          caption: prev.caption || file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')
-        }))
-        showNotification(res.isLocalFallback ? '📷 Image loaded (Local fallback mode)' : '☁️ Image uploaded to Supabase Storage!')
-      } else {
-        showNotification('⚠️ Upload notice: ' + (res.error || 'Failed'))
-      }
-    } catch (err) {
-      showNotification('❌ Upload failed: ' + err.message)
-    } finally {
-      setUploadingGalleryImg(false)
-    }
-  }
-
-  const handleBlogCoverUpload = async (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setUploadingBlogImg(true)
-    try {
-      const res = await uploadMediaToSupabase(file, 'blogs')
-      if (res.success && res.url) {
-        setEditingBlog(prev => ({ ...prev, coverImage: res.url }))
-        showNotification(res.isLocalFallback ? '📷 Cover image loaded (Local fallback)' : '☁️ Cover image uploaded to Supabase Storage!')
-      } else {
-        showNotification('⚠️ Upload notice: ' + (res.error || 'Failed'))
-      }
-    } catch (err) {
-      showNotification('❌ Upload failed: ' + err.message)
-    } finally {
-      setUploadingBlogImg(false)
-    }
-  }
-
-  const handleQuickImageUpload = async (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setQuickUploading(true)
-    try {
-      const res = await uploadMediaToSupabase(file, 'general')
-      if (res.success && res.url) {
-        setQuickUploadUrl(res.url)
-        showNotification(res.isLocalFallback ? '📷 Local URL generated' : '☁️ File uploaded to Supabase Storage!')
-      } else {
-        showNotification('⚠️ Notice: ' + (res.error || 'Check configuration'))
-      }
-    } catch (err) {
-      showNotification('❌ Upload error: ' + err.message)
-    } finally {
-      setQuickUploading(false)
-    }
-  }
 
   // ── Editor Helper Tools for Blog ──
   const insertTextAtCursor = (before, after = '') => {
@@ -568,12 +431,6 @@ export default function AdminPage() {
             <span className={styles.tabIcon}>📢</span> Announcements &amp; Info
           </button>
 
-          <button
-            className={`${styles.tabBtn} ${activeTab === 'supabase' ? styles.tabBtnActive : ''}`}
-            onClick={() => setActiveTab('supabase')}
-          >
-            <span className={styles.tabIcon}>⚡</span> Supabase &amp; Storage
-          </button>
         </aside>
 
         {/* Main Content Area */}
@@ -1074,186 +931,6 @@ export default function AdminPage() {
             </div>
           )}
 
-          {/* TAB 6: SUPABASE & STORAGE CONFIGURATION */}
-          {activeTab === 'supabase' && (
-            <div>
-              <div className={styles.panelHeader}>
-                <div>
-                  <h1 className={styles.panelTitle}>Supabase Cloud Database &amp; Storage</h1>
-                  <p className={styles.panelSubtitle}>Configure Supabase credentials, test live connection, and upload media assets</p>
-                </div>
-                <div style={{ display: 'flex', gap: '10px' }}>
-                  <button onClick={handleTestSupabaseConnection} className={styles.secondaryBtn} disabled={supabaseStatus.testing}>
-                    {supabaseStatus.testing ? '⏳ Testing Connection...' : '⚡ Test Connection'}
-                  </button>
-                  <button onClick={handleCopySql} className={styles.primaryBtn}>
-                    {copiedSql ? '✅ SQL Copied!' : '📋 Copy Supabase SQL Schema'}
-                  </button>
-                </div>
-              </div>
-
-              {/* Status Banner */}
-              <div className={styles.cardSection} style={{ background: '#faf5ed' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ fontSize: '24px' }}>
-                      {isSupabaseConfigured() ? '🟢' : '🟡'}
-                    </span>
-                    <div>
-                      <h3 style={{ margin: 0, color: '#8b3507', fontSize: '1.1rem' }}>
-                        {isSupabaseConfigured() ? 'Supabase Credentials Configured' : 'Supabase Not Yet Configured (Using Offline Local & Firestore Fallback)'}
-                      </h3>
-                      <p style={{ margin: '4px 0 0', fontSize: '13px', color: '#6b401e' }}>
-                        {supabaseStatus.message || (isSupabaseConfigured() ? 'Connected to Supabase project.' : 'Provide Supabase URL and Anon Key below to enable cloud media storage and PostgreSQL tables.')}
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    {supabaseStatus.tested && (
-                      <span className={`${styles.statusPill} ${supabaseStatus.success ? styles.statusSuccess : styles.statusError}`}>
-                        {supabaseStatus.success ? '✓ Connected to Supabase' : '✗ Connection Failed'}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {supabaseStatus.tables && (
-                  <div style={{ marginTop: '16px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                    {Object.entries(supabaseStatus.tables).map(([tableName, isOk]) => (
-                      <span
-                        key={tableName}
-                        className={`${styles.statusPill} ${isOk ? styles.statusSuccess : styles.statusWarning}`}
-                      >
-                        {isOk ? '✓' : '⚠️'} {tableName}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Supabase Credentials Form */}
-              <div className={styles.cardSection}>
-                <div className={styles.cardSectionHeader}>
-                  <h2 className={styles.cardSectionTitle}>🔑 Supabase API Credentials</h2>
-                </div>
-                <form onSubmit={handleSaveSupabaseConfig} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <div className={styles.inputGroup}>
-                    <label>Supabase Project URL (e.g. https://xyzcompany.supabase.co)</label>
-                    <input
-                      type="text"
-                      className={styles.input}
-                      placeholder="https://your-project-ref.supabase.co"
-                      value={supabaseConfig.url}
-                      onChange={e => setSupabaseConfig({ ...supabaseConfig, url: e.target.value.trim() })}
-                    />
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label>Supabase Anon Public Key</label>
-                    <input
-                      type="password"
-                      className={styles.input}
-                      placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                      value={supabaseConfig.anonKey}
-                      onChange={e => setSupabaseConfig({ ...supabaseConfig, anonKey: e.target.value.trim() })}
-                    />
-                  </div>
-
-                  <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '8px' }}>
-                    <button type="submit" className={styles.primaryBtn}>
-                      💾 Save Supabase Credentials
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleTestSupabaseConnection}
-                      className={styles.secondaryBtn}
-                      disabled={supabaseStatus.testing}
-                    >
-                      {supabaseStatus.testing ? '⏳ Testing...' : '⚡ Test Connection'}
-                    </button>
-                  </div>
-                </form>
-              </div>
-
-              {/* Quick Image & Media Uploader */}
-              <div className={styles.cardSection}>
-                <div className={styles.cardSectionHeader}>
-                  <h2 className={styles.cardSectionTitle}>☁️ Quick Media Asset Uploader</h2>
-                </div>
-                <p style={{ color: '#5c3b1e', fontSize: '14px', marginBottom: '16px' }}>
-                  Upload photos, laboratory charts, topper banners, or syllabus PDFs directly to Supabase Storage bucket <code>sp_media</code>.
-                </p>
-
-                <div className={styles.uploadZone}>
-                  <input
-                    type="file"
-                    accept="image/*,application/pdf"
-                    onChange={handleQuickImageUpload}
-                    className={styles.fileInputHidden}
-                    disabled={quickUploading}
-                  />
-                  <div className={styles.uploadIcon}>{quickUploading ? '⏳' : '📁'}</div>
-                  <div className={styles.uploadText}>
-                    {quickUploading ? 'Uploading to Supabase Storage CDN...' : 'Click or Drag & Drop image file to upload'}
-                  </div>
-                  <div className={styles.uploadSubtext}>Supports JPG, PNG, WEBP, SVG, and PDF (Max 10MB)</div>
-                </div>
-
-                {quickUploadUrl && (
-                  <div style={{ marginTop: '16px', background: '#fdfbf7', padding: '16px', borderRadius: '10px', border: '1px solid #e8d9c5' }}>
-                    <div style={{ fontWeight: 700, color: '#15803d', fontSize: '13px', marginBottom: '8px' }}>
-                      ✅ File Ready (Public URL):
-                    </div>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <input
-                        type="text"
-                        readOnly
-                        value={quickUploadUrl}
-                        className={styles.input}
-                        style={{ fontSize: '12.5px', background: '#fff' }}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          navigator.clipboard.writeText(quickUploadUrl)
-                          showNotification('📋 URL copied to clipboard!')
-                        }}
-                        className={styles.secondaryBtn}
-                        style={{ whiteSpace: 'nowrap' }}
-                      >
-                        Copy URL 📋
-                      </button>
-                    </div>
-                    {quickUploadUrl.startsWith('data:') === false && (
-                      <div style={{ marginTop: '10px' }}>
-                        <img
-                          src={quickUploadUrl}
-                          alt="Uploaded Preview"
-                          style={{ maxHeight: '120px', borderRadius: '8px', objectFit: 'contain' }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Complete Supabase SQL Setup Script */}
-              <div className={styles.cardSection}>
-                <div className={styles.cardSectionHeader}>
-                  <h2 className={styles.cardSectionTitle}>🛠️ 1-Click PostgreSQL Database &amp; Storage Schema</h2>
-                  <button onClick={handleCopySql} className={styles.secondaryBtn} style={{ fontSize: '12.5px' }}>
-                    {copiedSql ? '✅ Copied!' : '📋 Copy SQL Code'}
-                  </button>
-                </div>
-                <p style={{ color: '#5c3b1e', fontSize: '14px' }}>
-                  If setting up a fresh Supabase project, go to your <strong>Supabase Dashboard → SQL Editor → New Query</strong>, paste the script below, and click <strong>Run</strong>:
-                </p>
-                <div className={styles.codeBox}>
-                  {SUPABASE_SQL_SCHEMA}
-                </div>
-              </div>
-            </div>
-          )}
         </main>
       </div>
 
@@ -1355,21 +1032,6 @@ export default function AdminPage() {
                     onChange={e => setEditingBlog({ ...editingBlog, coverAlt: e.target.value })}
                     placeholder="S.P. Coaching Tuition Classes Silvassa"
                   />
-                </div>
-              </div>
-
-              {/* Upload zone for Blog Cover */}
-              <div className={styles.uploadZone} style={{ padding: '14px', margin: '0' }}>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleBlogCoverUpload}
-                  className={styles.fileInputHidden}
-                  disabled={uploadingBlogImg}
-                />
-                <div style={{ fontSize: '1.4rem' }}>{uploadingBlogImg ? '⏳' : '📷'}</div>
-                <div className={styles.uploadText} style={{ fontSize: '12.5px' }}>
-                  {uploadingBlogImg ? 'Uploading cover to Supabase Storage...' : 'Click or drop file to upload cover image directly to Supabase'}
                 </div>
               </div>
 
@@ -1534,21 +1196,6 @@ export default function AdminPage() {
             </div>
 
             <form onSubmit={handleSaveGallery} className={styles.modalBody}>
-              <div className={styles.uploadZone}>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleGalleryFileUpload}
-                  className={styles.fileInputHidden}
-                  disabled={uploadingGalleryImg}
-                />
-                <div className={styles.uploadIcon}>{uploadingGalleryImg ? '⏳' : '📷'}</div>
-                <div className={styles.uploadText}>
-                  {uploadingGalleryImg ? 'Uploading to Supabase Storage...' : 'Upload Image File to Supabase Storage'}
-                </div>
-                <div className={styles.uploadSubtext}>JPG, PNG, WEBP supported</div>
-              </div>
-
               <div className={styles.inputGroup}>
                 <label>Image Source / Path (Auto-filled upon upload) *</label>
                 <input

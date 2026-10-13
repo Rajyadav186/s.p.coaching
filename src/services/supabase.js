@@ -2,43 +2,11 @@
 // Centralized Supabase Client & Storage Configuration for S.P. Coaching Classes
 import { createClient } from '@supabase/supabase-js'
 
-const SUPABASE_CONFIG_KEY = 'sp_supabase_config_v1'
-
-// Default fallback / environment values
-const DEFAULT_SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || ''
-const DEFAULT_SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-
-// Get stored or env config
+// Get env config
 export function getSupabaseConfig() {
-  try {
-    const saved = localStorage.getItem(SUPABASE_CONFIG_KEY)
-    if (saved) {
-      const parsed = JSON.parse(saved)
-      if (parsed.url && parsed.anonKey) return parsed
-    }
-  } catch (e) {}
-
   return {
-    url: DEFAULT_SUPABASE_URL,
-    anonKey: DEFAULT_SUPABASE_ANON_KEY
-  }
-}
-
-// Save dynamic config from Admin Panel
-export function saveSupabaseConfig(urlOrObj, anonKey) {
-  try {
-    let url = urlOrObj
-    let key = anonKey
-    if (typeof urlOrObj === 'object' && urlOrObj !== null) {
-      url = urlOrObj.url
-      key = urlOrObj.anonKey
-    }
-    localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify({ url, anonKey: key }))
-    initSupabaseClient()
-    return true
-  } catch (e) {
-    console.error('Failed to save Supabase config', e)
-    return false
+    url: import.meta.env.VITE_SUPABASE_URL || '',
+    anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || ''
   }
 }
 
