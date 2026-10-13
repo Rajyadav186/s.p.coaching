@@ -25,9 +25,15 @@ export function getSupabaseConfig() {
 }
 
 // Save dynamic config from Admin Panel
-export function saveSupabaseConfig(url, anonKey) {
+export function saveSupabaseConfig(urlOrObj, anonKey) {
   try {
-    localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify({ url, anonKey }))
+    let url = urlOrObj
+    let key = anonKey
+    if (typeof urlOrObj === 'object' && urlOrObj !== null) {
+      url = urlOrObj.url
+      key = urlOrObj.anonKey
+    }
+    localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify({ url, anonKey: key }))
     initSupabaseClient()
     return true
   } catch (e) {
