@@ -295,6 +295,12 @@ export default function BlogPostPage() {
                         key={rel.slug}
                         to={rel.targetUrl || `/${rel.slug}`}
                         className={styles.interlinkTag}
+                        onClick={() => {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                          if (typeof window !== 'undefined' && window.innerWidth <= 640) {
+                            setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+                          }
+                        }}
                       >
                         {rel.targetKeyword || rel.title}
                       </Link>

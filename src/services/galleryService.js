@@ -70,7 +70,7 @@ export async function getAllGalleryImages() {
         .select('*')
         .order('order', { ascending: true })
 
-      if (!error && data && data.length > 0) {
+      if (!error && data) {
         const formatted = data.map(formatSupabaseGallery)
         saveLocalGallery(formatted)
         return formatted

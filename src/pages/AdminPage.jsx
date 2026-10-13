@@ -91,8 +91,6 @@ export default function AdminPage() {
       if (siteSet) setSettings(siteSet)
     } catch (e) {
       console.error('Data load error:', e)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -204,7 +202,6 @@ export default function AdminPage() {
 
   const handleSyncBlogsCloud = async () => {
     if (window.confirm('Sync/Reset all 14 target keyword landing blogs to Firestore & Local Storage? This ensures all 14 SEO pages are active.')) {
-      setLoading(true)
       await syncDefaultBlogsToCloud()
       await loadAllData()
       showNotification('⚡ All 14 Target SEO Landing Pages synced successfully to Cloud!')
@@ -251,7 +248,6 @@ export default function AdminPage() {
 
   const handleSyncGalleryCloud = async () => {
     if (window.confirm('Sync default campus images to Firestore?')) {
-      setLoading(true)
       await syncDefaultGalleryToCloud()
       await loadAllData()
       showNotification('⚡ Default Gallery synced to Cloud!')

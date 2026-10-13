@@ -137,6 +137,7 @@ export default function Comments() {
       }
 
       // Firestore real-time subscription
+      let unsubFirestore = null
       try {
         const q = query(
           collection(db, 'sp_comments'),

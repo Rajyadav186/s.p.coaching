@@ -19,9 +19,9 @@ export default function Gallery() {
         // Extract unique tags
         const uniqueTags = ['All', ...Array.from(new Set(data.map(p => p.tag || 'Infrastructure')))]
         setTags(uniqueTags)
+        setLoading(false)
       } catch (e) {
         console.error('Gallery load error:', e)
-      } finally {
         setLoading(false)
       }
     }

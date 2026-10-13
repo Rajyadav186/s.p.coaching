@@ -47,6 +47,7 @@ export function isSupabaseConfigured() {
   return Boolean(config.url && config.anonKey)
 }
 
+
 // Test connection
 export async function testSupabaseConnection() {
   const client = getSupabase()

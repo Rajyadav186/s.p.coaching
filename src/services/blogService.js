@@ -19,20 +19,29 @@ const LOCAL_STORAGE_KEY = 'sp_local_blogs_v1'
 // Helper to normalize Supabase record to camelCase frontend schema
 function formatSupabaseBlog(row) {
   if (!row) return null
+  const targetKeyword = row.primary_keyword || ''
+  const metaDescription = row.meta_desc || row.excerpt || ''
+  const readTime = row.reading_time || '5 min read'
+  const coverImage = row.image || '/gallery/classroom.jpg'
+
   return {
     id: row.id,
     title: row.title,
     slug: row.slug,
     targetUrl: row.target_url || `/${row.slug}`,
-    primaryKeyword: row.primary_keyword || '',
+    targetKeyword,
+    primaryKeyword: targetKeyword,
     excerpt: row.excerpt || '',
     content: row.content || '',
     metaTitle: row.meta_title || row.title,
-    metaDesc: row.meta_desc || row.excerpt,
+    metaDescription,
+    metaDesc: metaDescription,
     category: row.category || 'General',
-    readingTime: row.reading_time || '5 min read',
+    readTime,
+    readingTime: readTime,
     publishDate: row.publish_date || '',
-    image: row.image || '/gallery/classroom.jpg',
+    coverImage,
+    image: coverImage,
     backlinks: Array.isArray(row.backlinks) ? row.backlinks : [],
     faqs: Array.isArray(row.faqs) ? row.faqs : [],
     updatedAt: row.updated_at
@@ -46,15 +55,15 @@ function formatForSupabase(blog) {
     title: blog.title,
     slug: blog.slug,
     target_url: blog.targetUrl || `/${blog.slug}`,
-    primary_keyword: blog.primaryKeyword || '',
+    primary_keyword: blog.targetKeyword || blog.primaryKeyword || '',
     excerpt: blog.excerpt || '',
     content: blog.content || '',
     meta_title: blog.metaTitle || blog.title,
-    meta_desc: blog.metaDesc || blog.excerpt,
+    meta_desc: blog.metaDescription || blog.metaDesc || blog.excerpt,
     category: blog.category || 'General',
-    reading_time: blog.readingTime || '5 min read',
+    reading_time: blog.readTime || blog.readingTime || '5 min read',
     publish_date: blog.publishDate || new Date().toISOString().split('T')[0],
-    image: blog.image || '/gallery/classroom.jpg',
+    image: blog.coverImage || blog.image || '/gallery/classroom.jpg',
     backlinks: blog.backlinks || [],
     faqs: blog.faqs || [],
     updated_at: new Date().toISOString()
@@ -93,7 +102,7 @@ export async function getAllBlogs() {
         .select('*')
         .order('publish_date', { ascending: false })
 
-      if (!error && data && data.length > 0) {
+      if (!error && data) {
         const formatted = data.map(formatSupabaseBlog)
         saveLocalBlogs(formatted)
         return formatted
@@ -136,7 +145,15 @@ export async function saveBlog(blogData) {
     ...blogData,
     id,
     slug,
-    targetUrl: `/${slug}`,
+    targetUrl: blogData.targetUrl || `/${slug}`,
+    targetKeyword: blogData.targetKeyword || blogData.primaryKeyword || '',
+    primaryKeyword: blogData.targetKeyword || blogData.primaryKeyword || '',
+    metaDescription: blogData.metaDescription || blogData.metaDesc || blogData.excerpt || '',
+    metaDesc: blogData.metaDescription || blogData.metaDesc || blogData.excerpt || '',
+    readTime: blogData.readTime || blogData.readingTime || '5 min read',
+    readingTime: blogData.readTime || blogData.readingTime || '5 min read',
+    coverImage: blogData.coverImage || blogData.image || '/gallery/classroom.jpg',
+    image: blogData.coverImage || blogData.image || '/gallery/classroom.jpg',
     publishDate: blogData.publishDate || new Date().toISOString().split('T')[0],
     updatedAt: new Date().toISOString()
   }
